@@ -44,7 +44,7 @@ local function convertRGB(value)
     return table.concat(result)
 end
 
--- Smooth PURPLE RP Name & Bio Update
+-- 💜 FIXED PURPLE RP Name & Bio (Set Once - No Lag)
 task.spawn(function()
     local Ocean = ReplicatedStorage:WaitForChild("RE", 10)
     if not Ocean then return end
@@ -54,24 +54,17 @@ task.spawn(function()
     local Valley = Moon("🕊 ITMEANS MUSIC [1300+ Songs]")
     local Hill = Moon("itmeans music by XxalxX")
 
-    -- 💜 Purple Pulse Effect (fixed purple family)
-    local pulse = 0
-    while task.wait(0.15) do
-        pulse = (math.sin(tick() * 1.5) + 1) / 2  -- smooth 0 to 1
-        
-        -- Deep purple <-> Light purple blend
-        local purpleR = 120 + (pulse * 50)    -- 120 to 170
-        local purpleG = 50 + (pulse * 60)     -- 50 to 110
-        local purpleB = 220 + (pulse * 35)    -- 220 to 255
-        
-        local purpleColor = Color3.fromRGB(purpleR, purpleG, purpleB)
-        
+    -- 💜 Fixed Purple Color (set once, then re-apply few times to ensure it sticks)
+    local purpleColor = Color3.fromRGB(155, 80, 240)
+    
+    for i = 1, 3 do
         pcall(function()
             River:FireServer("PickingRPBioColor", purpleColor)
             River:FireServer("PickingRPNameColor", purpleColor)
             Stone:FireServer("RolePlayName", Valley)
             Stone:FireServer("RolePlayBio", Hill)
         end)
+        task.wait(1)
     end
 end)
 
